@@ -14,55 +14,55 @@ public class SecretSanta {
     private File saveDirectory;
 
     public SecretSanta() {
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+
         frame = new JFrame("Secret Santa Organizer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 600);
         frame.setLocationRelativeTo(null);
-
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-        JPanel inputPanel = new JPanel(new BorderLayout(5, 5));
-        JTextField nameField = new JTextField();
-        JButton addButton = new JButton("Add");
-
-        inputPanel.add(nameField, BorderLayout.CENTER);
-        inputPanel.add(addButton, BorderLayout.EAST);
-        mainPanel.add(inputPanel, BorderLayout.NORTH);
-        mainPanel.setBackground(Color.RED);
-        inputPanel.setBackground(Color.RED);
-
-        nameListModel = new DefaultListModel<>();
-        JList<String> nameList = new JList<>(nameListModel);
-        nameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane listScrollPane = new JScrollPane(nameList);
-
-        mainPanel.add(listScrollPane, BorderLayout.CENTER);
+        frame.setVisible(true);
+        frame.add(mainPanel);
 
         JPanel buttonPanel = new JPanel(new BorderLayout(5, 5));
         JPanel folderPanel = new JPanel(new BorderLayout(5, 5));
         JButton selectFolderButton = new JButton("Choose Folder");
-        folderLabel = new JLabel("No folder selected");
+        nameListModel = new DefaultListModel<>();
+        JList<String> nameList = new JList<>(nameListModel);
+        JPanel inputPanel = new JPanel(new BorderLayout(5, 5));
+        JButton addButton = new JButton("Add");
+
+        JTextField nameField = new JTextField();
         JButton saveButton = new JButton("Save");
+        addButton.addActionListener(e -> saveNameToList(nameField));
+        nameField.addActionListener(e -> saveNameToList(nameField));
+
+        inputPanel.add(nameField, BorderLayout.CENTER);
+        inputPanel.add(addButton, BorderLayout.EAST);
+        inputPanel.setBackground(Color.RED);
+
+        nameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        JScrollPane listScrollPane = new JScrollPane(nameList);
+
+        folderLabel = new JLabel("No folder selected");
+        folderLabel.setForeground(Color.WHITE);
 
         folderPanel.add(selectFolderButton, BorderLayout.WEST);
         folderPanel.add(folderLabel, BorderLayout.CENTER);
+        folderPanel.setBackground(new Color(48, 110, 0));
+
         buttonPanel.add(folderPanel, BorderLayout.CENTER);
         buttonPanel.add(saveButton, BorderLayout.EAST);
-        folderLabel.setForeground(Color.WHITE);
-        folderPanel.setBackground(new Color(48, 110, 0));
         buttonPanel.setBackground(new Color(48, 110, 0));
 
+        mainPanel.add(inputPanel, BorderLayout.NORTH);
+        mainPanel.add(listScrollPane, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        frame.add(mainPanel);
-        frame.setVisible(true);
+        mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        mainPanel.setBackground(Color.RED);
 
         folderChooser = new JFileChooser();
         folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-        addButton.addActionListener(e -> saveNameToList(nameField));
-        nameField.addActionListener(e -> saveNameToList(nameField));
 
         nameList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
